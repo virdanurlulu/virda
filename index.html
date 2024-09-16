@@ -1,0 +1,174 @@
+
+    <script src="https://learncheme.github.io/demos/ReadingaPsychrometricChart/libraries/p5.js"></script>
+    <link href="https://learncheme.github.io/demos/ReadingaPsychrometricChart/sliders.css" rel="stylesheet"></link>
+    <link href="https://learncheme.github.io/demos/ReadingaPsychrometricChart/style.css" rel="stylesheet"></link>
+    <link href="https://learncheme.github.io/demos/ReadingaPsychrometricChart/bootstrap.min.css" rel="stylesheet"></link>
+    <script>
+        MathJax = {
+            chtml: {
+                scale: 0.95,
+                mathmlSpacing: true, // true for MathML spacing rules, false for TeX rules
+                displayAlign: 'left', // default for indentalign when set to 'auto'
+            }
+        };
+    </script>
+    <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://learncheme.github.io/demos/ReadingaPsychrometricChart/jquery.js"></script>
+    <script src="https://learncheme.github.io/demos/ReadingaPsychrometricChart/popper.js"></script>
+    <script src="https://learncheme.github.io/demos/ReadingaPsychrometricChart/bootstrap.min.js"></script>
+
+
+    <div id="simulation-wrapper">
+        <div class="inputs-wrapper">
+            <div class="select-container" style="margin-right: 20px;">
+                <form>
+                    <label class="checkbox-inline" id="buttons">
+                        <input checked="" id="rel-hum" type="checkbox" />
+                        <span class="checkmark" style="color: #009600;">relative humidity</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input checked="" id="enthalpy" type="checkbox" />
+                        <span class="checkmark" style="color: #0032ff;">enthalpy</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input checked="" id="spec-vol" type="checkbox" />
+                        <span class="checkmark" style="color: #9600c8;">specific volume</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input id="temps" type="checkbox" />
+                        <span class="checkmark">temperatures</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input id="disp-vals" type="checkbox" />
+                        <span class="checkmark">display values</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input id="grid-lines" type="checkbox" />
+                        <span class="checkmark">grid lines</span>
+                    </label>
+                </form>
+            </div>
+            <div id="modal-buttons" style="margin-top: 10px;">
+                <div class="btn btn-primary" data-bs-target="#directionsModal" data-bs-toggle="modal" id="dir">
+                    Directions</div>
+                <div class="btn btn-primary" data-bs-target="#detailsModal" data-bs-toggle="modal" id="detail">Details
+                </div>
+                <div class="btn btn-primary" data-bs-target="#aboutModal" data-bs-toggle="modal" id="about">About</div>
+            </div>
+        </div>
+    </div>
+    <div id="graphics-wrapper">
+
+    </div>
+    <div aria-hidden="true" aria-labelledby="directionsModalLabel" class="modal fade" id="directionsModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="directionsModalLabel">Directions</h5>
+                    <button aria-label="Close" class="close" data-bs-dismiss="modal" type="button">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        This simulation shows to read a psychrometric chart (also known as a humidity chart). Click and
+                        drag the black dot to adjust the properties of air. Unchecking the "relative humidity" (green)
+                        box removes the labels for the relative-humidity lines. Check the boxes for "enthalpy" (blue)
+                        and "specific volume" (purple) to display lines of constant enthalpy and constant volume,
+                        respectively. Check the box for "temperatures" to display dashed black lines that point to
+                        dry-bulb, wet-bulb and dew point temperatures that correspond to those values at the black dot.
+                        When the "temperatures" box is checked, move the mouse over each dashed line to identify which
+                        temperature it corresponds to. All temperatures are read on the \(x\) axis. Check "display
+                        values" to see a table of the values obtained from the chart for the selected point; only the
+                        moisture content and the values whose boxes are checked are displayed. The values per kg are per
+                        kg of dry air.
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="detailsModalLabel" class="modal fade" id="detailsModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Details</h5>
+                    <button aria-label="Close" class="close" data-bs-dismiss="modal" type="button">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="modal-text">
+                        Relative humidity is defined by:
+                    </div>
+                    <div class="modal-equation">
+                        $$
+                        \phi = \frac{P_w}{P^{sat}_w}100,
+                        $$
+                    </div>
+                    <div class="modal-text">
+                        where \(P_w\) is the partial pressure of the water and \(P^{sat}_w\) is the saturation pressure
+                        of water (bar).
+                    </div>
+                    <div class="modal-text">
+                        The saturation pressure is calculated from the Antoine equation:
+                    </div>
+                    <div class="modal-equation">
+                        $$
+                        P^{sat} = 10^{A - \frac{B}{T+C}},
+                        $$
+                    </div>
+                    <div class="modal-text">
+                        where \(A\), \(B\) and \(C\) are Antoine constants and \(T\) is temperature (°C).
+                    </div>
+                    <div class="modal-text">
+                        For additional resources on the psychrometric chart, view the screencasts at [1-3].
+                    </div>
+                    <div style="height: 10px;"></div>
+                    <ol class="references">
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div aria-hidden="true" aria-labelledby="aboutModalLabel" class="modal fade" id="aboutModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">About</h5>
+                    <button aria-label="Close" class="close" data-bs-dismiss="modal" type="button">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        This simulation was created in the <a href="https://www.colorado.edu/chbe" target="_blank">Department of
+                            Chemical and Biological Engineering</a>, at University of Colorado Boulder for LearnChemE by Rachael Baumann under
+                        the direction of
+                        Professor John L. Falconer and was converted to HTML5 by Patrick Doyle, with additional
+                        contributions by Neil Hendren. This simulation was prepared with financial support from the
+                        National Science Foundation. Address any questions or comments to learncheme@gmail.com. All of
+                        our
+                        simulations are open source, and are available on our <a href="https://github.com/LearnChemE/LearnChemE.github.io/" target="_blank">LearnChemE Github
+                            repository</a>.</p>
+                    <p style="line-height: 3rem;">
+                        If this simulation is too big for your screen, zoom out using&nbsp;<span><img src="https://learncheme.github.io/media/command.png" style="height: 4ch;" /></span>&nbsp;+&nbsp;<span><img src="https://learncheme.github.io/media/minus.png" style="height: 4ch;" /></span>&nbsp;on
+                        Mac
+                        or&nbsp;<span><img src="https://learncheme.github.io/media/ctrl.png" style="height: 4ch;" /></span>&nbsp;+&nbsp;<span><img src="https://learncheme.github.io/media/minus.png" style="height: 4ch;" /></span>&nbsp;on
+                        Windows. To zoom in, use&nbsp;<span><img src="https://learncheme.github.io/media/command.png" style="height: 4ch;" /></span>&nbsp;+&nbsp;<span><img src="https://learncheme.github.io/media/plus.png" style="height: 4ch;" /></span>&nbsp;on
+                        Mac
+                        or&nbsp;<span><img src="https://learncheme.github.io/media/ctrl.png" style="height: 4ch;" /></span>&nbsp;+&nbsp;<span><img src="https://learncheme.github.io/media/plus.png" style="height: 4ch;" /></span>&nbsp;on
+                        Windows.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://learncheme.github.io/demos/ReadingaPsychrometricChart/index.js"></script>
+    <script src="https://learncheme.github.io/demos/ReadingaPsychrometricChart/functions.js"></script>
